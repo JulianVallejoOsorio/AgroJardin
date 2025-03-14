@@ -1,0 +1,82 @@
+# Boilerplate Spring Boot Project
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+- [Swagger Documentation](#swagger-documentation)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+## Introduction
+This is a boilerplate project for a Spring Boot application with Docker support. It includes basic authentication, user management, and API documentation using Swagger.
+
+## Prerequisites
+- Docker and Docker Compose
+
+## Optionals 
+- Java 17 or higher
+- Maven 3.6.3 or higher
+
+## Getting Started
+Follow these steps to set up and run the project:
+
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/zexarcore/java-sprintboot
+    cd java-sprintboot
+    ```
+
+2. **Build the project (optional):**
+    ```sh
+    mvn clean package -DskipTests
+    ```
+
+3. **Make the wait-for-it script executable:**
+    ```sh
+    chmod +x wait-for-it.sh
+    ```
+
+4. **Build and run the Docker containers:**
+    ```sh
+    docker-compose down
+    docker-compose build --no-cache
+    docker-compose up
+    ```
+
+5. **Access the application:**
+    - Application: [http://localhost:8081](http://localhost:8081)
+    - Swagger API Docs: [http://localhost:8081/v3/api-docs](http://localhost:8081/v3/api-docs)
+    - Swagger UI: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+
+## Running the Application
+To run the application locally without Docker, use the following command:
+```sh
+mvn spring-boot:run
+```
+
+## API Endpoints
+- GET /api/users
+- GET /api/users/{id}
+- POST /api/users
+- PUT /api/users/{id}
+- DELETE /api/users/{id}
+
+## Swagger Documentation
+- [Swagger API Docs](http://localhost:8081/v3/api-docs)
+- [Swagger UI](http://localhost:8081/swagger-ui.html)
+
+## Troubleshooting
+If you encounter issues with port 8080, you can use the following commands to identify and kill the process:
+
+```sh
+sudo lsof -i :8080
+netstat -ano | findstr :8080
+sudo kill -9 <PID>
+taskkill /PID <PID> /F
+```
+
+## License
+This project is licensed under the MIT License. For more details, visit [https://choosealicense.com/](https://choosealicense.com/)

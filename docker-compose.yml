@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8081:8081"
+      - "5005:5005"  # for debugging
+      - "35729:35729"  # for live reload
+    volumes:
+      - ./:/app  # Mount the source code into the container
+      - ~/.m2:/root/.m2  # Caching Maven Dependencies
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/usersdb?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DEVTOOLS_REMOTE_SECRET=mysecret
+      - SPRING_DEVTOOLS_LIVERELOAD_ENABLED=true
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=usersdb
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./mysql-data:/var/lib/mysql  # Data persistence at the project root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - backend
+
+volumes:
+  mysql-data:  # Named volume for data persistence
+
+networks:
+  backend:
+    driver: bridge

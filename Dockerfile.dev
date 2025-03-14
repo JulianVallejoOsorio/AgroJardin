@@ -1,0 +1,24 @@
+# Use the official Eclipse Temurin JDK 21 image
+FROM eclipse-temurin:21-jdk-jammy
+
+# Set the working directory
+WORKDIR /app
+
+# Install Maven and necessary tools
+RUN apt-get update && \
+    apt-get install -y maven default-mysql-client && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy only the initial pom.xml
+COPY pom.xml .
+
+# Download dependencies
+RUN mvn dependency:go-offline -B
+
+# Wait script for MySQL
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# The source code will be mounted as a volume
+CMD ["/wait-for-it.sh", "mysql:3306", "--", "mvn", "spring-boot:run", \
+     "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'"]

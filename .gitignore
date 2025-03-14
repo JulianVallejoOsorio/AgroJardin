@@ -1,0 +1,48 @@
+# Maven generated directories and files
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+**/mvn/wrapper/maven-wrapper.jar
+
+# IDE configuration files
+/.idea/
+/*.iml
+/.vscode/
+/*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Docker configuration files
+docker-compose.override.yml
+
+# Environment configuration files
+.env
+
+# IntelliJ IDEA configuration files
+/.idea/
+/*.iws
+/*.ipr
+/*.iml
+
+# Eclipse configuration files
+/.classpath
+/.project
+/.settings/
+
+# NetBeans configuration files
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code configuration files
+/.vscode/
+
+# Mac configuration files
+.DS_Store
